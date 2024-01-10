@@ -16,4 +16,8 @@ export class PrismaService {
     public async getAllUsers() {
         return await prismaService.users.findMany();
     };
+
+    public async getUserByEmail(email: string) {
+        return await prismaService.users.findUnique({ where: { email } });
+    }
 }

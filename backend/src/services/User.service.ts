@@ -1,3 +1,4 @@
+import { HttpException } from "../httExecption";
 import { IUser } from "../interfaces/User.interface";
 import { UserModel } from "../model/User.model";
 import { HashPasswordService } from "../model/userService/HashSenha";
@@ -11,6 +12,9 @@ export class UserService {
         this.passwordService = new HashPasswordService();
     }
     public async createUser(user: IUser) {
+        const emailExist = await this.userModel.getUserByEmail(user.email);
+        if (emailExist) throw new HttpException(400, 'Email já cadastrado no banco de dados.');
+
         const passwordHash = await this.passwordService.hashPassword(user.password);
         const newUser = await this.userModel.createUser({ name: user.name, email: user.email, password: passwordHash });
         return newUser;

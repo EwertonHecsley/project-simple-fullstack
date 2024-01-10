@@ -1,5 +1,5 @@
 import { IUser } from "../interfaces/User.interface";
-import { PrismaService } from "./userService/user";
+import { PrismaService } from "./userService/DataBase";
 
 export class UserModel {
     private prismaService: PrismaService
@@ -13,5 +13,9 @@ export class UserModel {
 
     public async getAllUsers() {
         return await this.prismaService.getAllUsers();
+    }
+
+    public async getUserByEmail(email: string) {
+        return await this.prismaService.getUserByEmail(email);
     }
 }
