@@ -12,4 +12,8 @@ export class PrismaService {
             }
         });
     };
+
+    public async getAllUsers() {
+        return await prismaService.users.findMany();
+    };
 }
