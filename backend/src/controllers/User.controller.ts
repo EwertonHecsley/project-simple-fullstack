@@ -6,7 +6,8 @@ export class UserController {
         const { name, email, password } = req.body;
         const userService = new UserService();
         const user = await userService.createUser({ name, email, password });
-        return res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.', usuario: user });
+        const { updatedAt: _, password: __, ...userFormated } = user;
+        return res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.', usuario: userFormated });
     }
 
     public async getAllUsers(_req: Request, res: Response) {
