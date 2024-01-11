@@ -18,4 +18,8 @@ export class UserModel {
     public async getUserByEmail(email: string) {
         return await this.prismaService.getUserByEmail(email);
     }
+
+    public async getUserById(id: number) {
+        return await this.prismaService.getUserById(id);
+    }
 }

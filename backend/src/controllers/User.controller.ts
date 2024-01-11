@@ -22,6 +22,18 @@ export class UserController {
     public async getAllUsers(_req: Request, res: Response) {
         const userService = new UserService();
         const users = await userService.getAllUsers();
-        return res.json(users);
+        const restult = users.map((user) => {
+            const { password: _, ...userFormated } = user;
+            return userFormated;
+        })
+        return res.json(restult);
+    };
+
+    public async getUserById(req: Request, res: Response) {
+        const { id } = req.params;
+        const userService = new UserService();
+        const user = await userService.getUserById(parseInt(id));
+        const { password: _, ...result } = user;
+        return res.json(result);
     };
 };

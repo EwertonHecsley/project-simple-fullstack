@@ -18,6 +18,18 @@ export class PrismaService {
     };
 
     public async getUserByEmail(email: string) {
-        return await prismaService.users.findUnique({ where: { email } });
-    }
+        return await prismaService.users.findUnique({
+            where: {
+                email
+            }
+        });
+    };
+
+    public async getUserById(id: number) {
+        return await prismaService.users.findUnique({
+            where: {
+                id
+            }
+        });
+    };
 }
