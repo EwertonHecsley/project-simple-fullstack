@@ -11,7 +11,7 @@ const logarUser = async () => {
   try {
     isLoading.value = true;
 
-    const response = await fetch('http://localhost:3333/user', {
+    const response = await fetch('http://localhost:3333/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,11 +20,11 @@ const logarUser = async () => {
     });
 
     if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
       route.push('/logado');
-    } else {
-      console.error('Erro ao fazer login:', response.statusText);
-      route.push('/naoLogado');
     }
+
   } catch (error) {
     console.error('Erro ao fazer login:', error);
     route.push('/naoLogado');
