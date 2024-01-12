@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserService } from "../services/User.service";
 import { createUserSchema } from "../schemas/user.schema";
 import { ZodError } from "zod";
+import { loginSchema } from "../schemas/login.schema";
 
 export class UserController {
     public async handle(req: Request, res: Response) {
@@ -36,4 +37,19 @@ export class UserController {
         const { password: _, ...result } = user;
         return res.json(result);
     };
+
+    public async loginUser(req: Request, res: Response) {
+        const { email, password } = req.body;
+
+        try {
+            await loginSchema.parseAsync(req.body);
+        } catch (error) {
+            if (error instanceof ZodError) return res.status(401).json({ mensagem: error.issues[0].message });
+        };
+
+        const userService = new UserService();
+        const result = await userService.loginUser(email, password);
+        return res.json({ mensagem: 'Usuário logado com sucesso.', token: result });
+
+    }
 };
